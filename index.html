@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculadora</title>
+  <meta charset="utf-8">
+  <script type="text/javascript">
+    let op;
+    let af=0;
+    let z=0;
+    
+    const vaciar = () => {
+      document.getElementById("pantalla").value = "";
+    }
+
+    const cuadrado = () => {
+      let num = document.getElementById("pantalla");
+      num.value = num.value * num.value;
+      rellenar_info(); 
+      validar();
+    }
+
+    const mod = () => {
+      let num = document.getElementById("pantalla");
+      if (num.value<0){
+        num.value= num.value * (-1) ;
+      }      
+      rellenar_info(); 
+      validar();
+    }
+
+    const fact = () => {
+      let num = document.getElementById("pantalla");
+      let a=num.value;
+      if(num.value==0){
+        a=1;
+      }
+      for(let i= num.value-1;i>0;i--){
+           a= a*i;
+      }
+      num.value=a;
+
+      rellenar_info();
+      validar();
+    }
+
+    const add = () => {
+      let n = document.getElementById("pantalla");
+      af=n.value;
+      op=0;
+      validar();
+    }
+
+    const mul = () => {
+      let n = document.getElementById("pantalla");
+      af=n.value;
+      op=1;
+      validar();
+    }
+
+    const eq = () => {
+      let b= document.getElementById("pantalla");
+      if (op==0){
+      af= +b.value + +af;
+       }
+      else {
+      af= b.value * af;
+      }
+      rellenar_info();
+      b.value=af;
+      validar();
+    }
+    
+    const sumatorio = () => {
+      let num= document.getElementById("pantalla");
+      let list= num.value.split(",");
+      let  act=0;
+      for(let i=0;i<list.length;i++){
+          act= +list[i] + act;
+      }
+      num.value=act;
+      rellenar_info();
+      validar();
+    }
+
+    const sortin = (a,b) => {  //metodo para realizar la ordenación de elementos 
+      if (a>b) {
+        return 1;
+      }
+      else if (a<b){
+        return -1 ;
+      }
+      else {
+        return 0;
+      }
+    }
+    
+    const ordenar = () => {
+      let num= document.getElementById("pantalla");
+      let list= num.value.split(",");
+      let list2=list.sort(sortin); 
+      num.value=list2;
+      validar();
+    }
+     
+    const revertir = () => {      
+      let num= document.getElementById("pantalla");
+      let list= num.value.split(",");
+      let list2=list.reverse();
+      num.value=list2;
+      validar();
+    }
+
+
+    const quitar = () => {
+      let num= document.getElementById("pantalla");
+      let list= num.value.split(",");
+      z=list.pop();
+      num.value=list;
+      validar();
+    }
+
+   
+
+     
+     const auxiliar = (k)=>{     //método para ver si todo son dígitos 
+       for(let i=k.length-1;i>=0;i--){
+         let o= k[i];
+         for(let j=o.length-1;j>=0;j--){
+           if(isNaN(o[j])){
+             return false
+           }
+         }
+       }
+       return true
+     }
+       
+     const aux=(s)=>{      //método para ver si el elemento que se quita en el método quitar está formado únicamente por dígitos
+       for(let i=0;i<s.length-1;i++){
+         if(isNaN(s[i])){
+         return false;
+       }
+     }
+     return true
+    }
+
+    const validar = () => {
+      let num= document.getElementById("pantalla");
+      let l= num.value.split(",");
+      let p= auxiliar(l);
+      let u= aux(z);
+      if(!u){
+        num.value="Error";}
+      
+       else if((l.length===1)&&(!p)||(!p)){
+          num.value="Error";
+        }
+      }
+        
+      
+      
+       
+      
+    
+    const rellenar_info = () => {
+      let num= document.getElementById("pantalla")
+    if(num.value<100){
+      document.getElementById("info").innerHTML="Info: El resultado es menor que 100";
+    }
+    else if (num.value<200 && num.value>100) {
+      document.getElementById("info").innerHTML="Info: El resultado está entre 100 y 200 ";
+    }
+    else {
+      document.getElementById("info").innerHTML="Info: El resultado es superior a 200 "; 
+    }
+  }
+     
+     
+  </script>
+</head>
+<body>
+  <h1> Calculadora de CORE</h1>
+  Número:
+  <input type="text" id="pantalla" onclick="vaciar()">  
+
+  <h2 id="info" class="grande" title="Info sobre el número"> Info sobre el número</h2>
+     
+  <h3>Operaciones unitarias</h3>
+  
+  <button id="cuadrado" onclick="cuadrado()">x<sup>2</sup></button>
+  <button id="modulo"   onclick="mod()"> Mod </button>
+  <button id="factorial" onclick="fact()"> n!</button>
+
+  <h3>Operaciones binarias</h3>
+
+  <button id="suma" onclick="add()"> + </button>
+  <button id="multiplicacion" onclick="mul()"> * </button>
+  <button id="igual" onclick="eq()"> = </button>
+
+
+
+  <h3>Operaciones en formato CSV</h3>
+  <button id="sumatorio" onclick="sumatorio()"> ∑ </button>
+  <button id="ordenar" onclick="ordenar()"> ordenar </button>
+  <button id="revertir" onclick="revertir()"> revertir </button>
+  <button id="quitar" onclick="quitar()"> quitar </button>
+
+
+
+ </body>
+</html>
